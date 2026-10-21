@@ -195,6 +195,8 @@ struct Context {
     last_mouse_position: Option<Vec2>,
     mouse_wheel: Vec2,
 
+    tray_icon_events: Vec<isize>,
+
     prevent_quit_event: bool,
     quit_requested: bool,
 
@@ -334,6 +336,8 @@ impl Context {
             mouse_position: vec2(0., 0.),
             last_mouse_position: None,
             mouse_wheel: vec2(0., 0.),
+
+            tray_icon_events:Vec::new(),
 
             prevent_quit_event: false,
             quit_requested: false,
@@ -525,8 +529,13 @@ impl EventHandler for Stage {
         }
     }
 
-    fn raw_mouse_motion(&mut self, x: f32, y: f32) {
+    fn tray_icon_event(&mut self, event:isize) {
         let context = get_context();
+        context.tray_icon_events.push(event);
+    }
+
+    fn raw_mouse_motion(&mut self, x: f32, y: f32) {
+        let context: &mut Context = get_context();
 
         if context.cursor_grabbed {
             context.mouse_position += Vec2::new(x, y);
