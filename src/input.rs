@@ -197,10 +197,12 @@ pub fn is_mouse_button_pressed(btn: MouseButton) -> bool {
     context.mouse_pressed.contains(&btn)
 }
 
-pub fn get_tray_icon_events() -> Vec<isize> {
+pub fn get_tray_icon_events() -> isize {
     let context = get_context();
 
-    context.tray_icon_events.clone()
+    let old = context.tray_icon_event;
+    context.tray_icon_event = 0;
+    old
 }
 
 /// Detect if the button has been released this frame
